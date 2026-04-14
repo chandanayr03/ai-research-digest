@@ -1,14 +1,17 @@
 """
 AI Research Digest Agent - ReAct-style autonomous loop.
 
-PLAN -> SYNC FEEDBACK -> For each topic:
+PLAN -> SYNC FEEDBACK + SUBSCRIPTIONS -> For each active topic:
   SEARCH (arXiv + Semantic Scholar + Papers With Code)
   FILTER (skip seen + LLM relevance gate)
   DEDUP (fuzzy title matching)
-  RANK (LLM picks top-k)
+  RANK (LLM picks top-1 best paper)
+  RATE DIFFICULTY (Beginner / Intermediate / Advanced)
   SUMMARIZE (LLM 2-line summary)
--> DELIVER (Telegram, one paper per message + feedback buttons)
--> PERSIST (seen_papers.json + feedback.json)
+  GENERATE FUN FACT ("Did You Know?" per topic)
+-> DELIVER (Telegram, one paper per topic + difficulty + fun fact + feedback buttons)
+-> AI INSIGHT OF THE DAY
+-> PERSIST (seen_papers.json + feedback.json + subscribers.json)
 """
 
 import sys
@@ -29,21 +32,22 @@ class DigestAgent:
     def __init__(self):
         self.seen = storage.load_seen()
         self.feedback = storage.load_feedback()
+        self.subscribers = storage.load_subscribers()
         self.preferences = storage.build_preference_profile(self.feedback)
         self.new_seen = {}
-        self.results = {}  # topic -> [(paper, summary), ...]
+        self.results = {}  # topic -> [(paper, summary, difficulty, fun_fact), ...]
 
     def log(self, msg: str):
         ts = datetime.utcnow().strftime("%H:%M:%S")
         print(f"[{ts}] {msg}", flush=True)
 
-    # ── Phase 0: Sync feedback from Telegram ──
+    # ── Phase 0: Sync feedback + subscriptions ──
 
     def sync_feedback(self):
-        self.log("PLAN: Syncing Telegram feedback...")
+        self.log("PLAN: Syncing Telegram feedback & subscriptions...")
         try:
             last_id = self.feedback.get("last_update_id", 0)
-            votes, new_last_id = telegram.pull_feedback(last_id)
+            votes, new_last_id = telegram.pull_feedback(last_id, self.subscribers)
             self.feedback["last_update_id"] = new_last_id
 
             for v in votes:
@@ -52,9 +56,11 @@ class DigestAgent:
                     v["user_id"], v["username"])
 
             storage.save_feedback(self.feedback)
+            storage.save_subscribers(self.subscribers)
             self.preferences = storage.build_preference_profile(self.feedback)
             self.log(f"  ACT: {len(votes)} new vote(s), "
-                     f"{self.preferences['total_votes']} total")
+                     f"{self.preferences['total_votes']} total, "
+                     f"{len(self.subscribers)} subscriber(s)")
         except Exception as e:
             self.preferences = {"total_votes": 0, "liked": [], "disliked": []}
             self.log(f"  OBSERVE: Feedback sync failed ({e}) - using neutral ranking")
@@ -123,7 +129,6 @@ class DigestAgent:
                 sim = SequenceMatcher(None, p["title"].lower(),
                                       existing["title"].lower()).ratio()
                 if sim > config.SIMILARITY_THRESHOLD:
-                    # Merge metadata into existing
                     if p.get("citations") and not existing.get("citations"):
                         existing["citations"] = p["citations"]
                     if p.get("code_url") and not existing.get("code_url"):
@@ -157,19 +162,41 @@ class DigestAgent:
             self.log(f"  OBSERVE: Ranking failed ({e}) - using first {config.TOP_K}")
             return unique[:config.TOP_K]
 
-    # ── Phase 5: Summarize ──
+    # ── Phase 5: Summarize + Difficulty + Fun Fact ──
 
-    def summarize(self, papers: list) -> list:
+    def enrich(self, papers: list, topic_name: str) -> list:
+        """Summarize, rate difficulty, and generate fun fact for each paper."""
         results = []
+
+        # Generate one fun fact for the whole topic
+        self.log(f"THINK: Generating 'Did You Know?' for '{topic_name}'...")
+        fun_fact = ""
+        try:
+            fun_fact = llm.generate_topic_fact(topic_name)
+            self.log("  ACT: Fun fact ready")
+        except Exception as e:
+            self.log(f"  OBSERVE: Fun fact failed ({e})")
+
         for p in papers:
+            # Summarize
             self.log(f"THINK: Summarizing '{p['title'][:55]}...'")
             try:
                 summary = llm.summarize(p["title"], p["abstract"])
                 self.log("  ACT: Summary ready")
-                results.append((p, summary))
             except Exception as e:
                 self.log(f"  OBSERVE: Summary failed ({e})")
-                results.append((p, "Summary unavailable."))
+                summary = "Summary unavailable."
+
+            # Difficulty
+            self.log(f"THINK: Rating difficulty...")
+            try:
+                difficulty = llm.rate_difficulty(p["title"], p["abstract"])
+                self.log(f"  ACT: Rated as {difficulty}")
+            except Exception as e:
+                self.log(f"  OBSERVE: Rating failed ({e})")
+                difficulty = "Intermediate"
+
+            results.append((p, summary, difficulty, fun_fact))
         return results
 
     # ── Phase 6: Deliver ──
@@ -177,16 +204,29 @@ class DigestAgent:
     def deliver(self):
         self.log("THINK: Delivering digest to Telegram...")
         today = datetime.utcnow().strftime("%B %d, %Y")
-        telegram.send_message(f"*AI Research Digest - {today}*")
+
+        # Header
+        active_count = sum(1 for v in self.results.values() if v)
+        telegram.send_message(
+            f"*AI Research Digest - {today}*\n"
+            f"Today's best paper from {active_count} topics\n"
+            f"_Send /subscribe to choose your topics_"
+        )
 
         total_sent = 0
         for topic_name, papers in self.results.items():
             if not papers:
                 continue
+
             telegram.send_message(f"--- *{topic_name}* ---")
-            for i, (paper, summary) in enumerate(papers, 1):
+
+            for i, (paper, summary, difficulty, fun_fact) in enumerate(papers, 1):
                 pid = storage.paper_id(paper)
-                result = telegram.send_paper(paper, summary, i, pid)
+                result = telegram.send_paper(
+                    paper, summary, i, pid,
+                    difficulty=difficulty,
+                    fun_fact=fun_fact,
+                )
                 if result.get("ok"):
                     storage.register_paper(self.feedback, paper, topic_name,
                                            result.get("message_id"))
@@ -200,7 +240,7 @@ class DigestAgent:
         # AI Insight of the Day
         all_titles = []
         for papers in self.results.values():
-            for paper, _ in papers:
+            for paper, _, _, _ in papers:
                 all_titles.append(paper["title"])
 
         if all_titles:
@@ -213,7 +253,7 @@ class DigestAgent:
                 self.log(f"  OBSERVE: Insight generation failed ({e}) - skipping")
 
         storage.save_feedback(self.feedback)
-        self.log(f"  ACT: Sent {total_sent} paper(s) with feedback buttons")
+        self.log(f"  ACT: Sent {total_sent} paper(s)")
 
     # ── Main Loop ──
 
@@ -229,10 +269,19 @@ class DigestAgent:
         self.sync_feedback()
         print()
 
+        # Determine which topics are active (based on subscriptions)
+        active_topics = storage.get_active_topics(self.subscribers)
+        self.log(f"PLAN: Active topics: {', '.join(active_topics)}\n")
+
         import time
 
         for idx, topic in enumerate(config.TOPICS):
             name = topic["name"]
+
+            if name not in active_topics:
+                self.log(f"=== [{idx+1}/{len(config.TOPICS)}] {name} — SKIPPED (no subscribers) ===\n")
+                continue
+
             self.log(f"=== [{idx+1}/{len(config.TOPICS)}] {name} ===")
 
             if idx > 0:
@@ -248,12 +297,15 @@ class DigestAgent:
             # Self-correction: if all are seen, broaden search
             if not fresh and raw:
                 self.log(f"REFLECT: All papers seen - broadening search...")
-                broader = sources.search_arxiv(
-                    topic["arxiv_categories"],
-                    topic["keywords"][:2],
-                    config.PAPERS_PER_SOURCE * 3)
-                if broader:
-                    fresh = self.filter_seen(broader, name)
+                try:
+                    broader = sources.search_arxiv(
+                        topic["arxiv_categories"],
+                        topic["keywords"][:2],
+                        config.PAPERS_PER_SOURCE * 3)
+                    if broader:
+                        fresh = self.filter_seen(broader, name)
+                except Exception as e:
+                    self.log(f"  OBSERVE: Broadened search failed ({e}) - moving on")
 
             if not fresh:
                 self.log(f"REFLECT: No new papers for '{name}' - skipping\n")
@@ -268,10 +320,12 @@ class DigestAgent:
                 self.results[name] = []
                 continue
 
-            # Rank + Summarize
+            # Rank
             top = self.rank(relevant, name)
-            self.results[name] = self.summarize(top)
-            self.log(f"REFLECT: '{name}' done - {len(self.results[name])} papers\n")
+
+            # Enrich (summarize + difficulty + fun fact)
+            self.results[name] = self.enrich(top, name)
+            self.log(f"REFLECT: '{name}' done - {len(self.results[name])} paper(s)\n")
 
         # Deliver
         self.log("=== DELIVERING DIGEST ===")
@@ -280,6 +334,7 @@ class DigestAgent:
         # Persist
         self.seen.update(self.new_seen)
         storage.save_seen(self.seen)
+        storage.save_subscribers(self.subscribers)
         self.log(f"ACT: Saved {len(self.new_seen)} new IDs "
                  f"(total: {len(self.seen)})")
 

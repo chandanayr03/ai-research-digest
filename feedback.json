@@ -1,5 +1,5 @@
 {
-  "last_update_id": 689347264,
+  "last_update_id": 689347266,
   "papers": {
     "2604.02194": {
       "up": 0,
@@ -240,6 +240,66 @@
       "link": "http://arxiv.org/abs/2604.11748v1",
       "last_seen": "2026-04-14T04:18:07.100625",
       "message_id": 37
+    },
+    "2604.11663": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "Why Do Large Language Models Generate Harmful Content?",
+      "topic": "LLMs & Language Models",
+      "link": "http://arxiv.org/abs/2604.11663v1",
+      "last_seen": "2026-04-14T07:19:54.285750",
+      "message_id": 6
+    },
+    "2604.11477": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "OOM-RL: Out-of-Money Reinforcement Learning Market-Driven Alignment for LLM-Based Multi-Agent Systems",
+      "topic": "AI Agents & Autonomous Systems",
+      "link": "http://arxiv.org/abs/2604.11477v1",
+      "last_seen": "2026-04-14T07:19:56.207940",
+      "message_id": 8
+    },
+    "2604.11422": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "Emulating Non-Differentiable Metrics via Knowledge-Guided Learning: Introducing the Minkowski Image Loss",
+      "topic": "ML / DL Innovations",
+      "link": "http://arxiv.org/abs/2604.11422v1",
+      "last_seen": "2026-04-14T07:20:01.298485",
+      "message_id": 10
+    },
+    "2604.10459": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "Dynamic Adaptive Attention and Supervised Contrastive Learning: A Novel Hybrid Framework for Text Sentiment Classification",
+      "topic": "NLP & Text Processing",
+      "link": "http://arxiv.org/abs/2604.10459v1",
+      "last_seen": "2026-04-14T07:20:03.210302",
+      "message_id": 12
+    },
+    "2604.11462": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "Escaping the Context Bottleneck: Active Context Curation for LLM Agents via Reinforcement Learning",
+      "topic": "Reinforcement Learning",
+      "link": "http://arxiv.org/abs/2604.11462v1",
+      "last_seen": "2026-04-14T07:20:08.430684",
+      "message_id": 14
+    },
+    "2604.10857": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "Query Lower Bounds for Diffusion Sampling",
+      "topic": "Generative AI",
+      "link": "http://arxiv.org/abs/2604.10857v1",
+      "last_seen": "2026-04-14T07:20:10.428564",
+      "message_id": 16
     }
   },
   "votes": []

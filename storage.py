@@ -12,6 +12,7 @@ from config import MAX_SEEN_PAPERS, MAX_FEEDBACK_EVENTS
 _DIR = os.path.dirname(os.path.abspath(__file__))
 SEEN_FILE = os.path.join(_DIR, "seen_papers.json")
 FEEDBACK_FILE = os.path.join(_DIR, "feedback.json")
+SUBSCRIBERS_FILE = os.path.join(_DIR, "subscribers.json")
 
 
 # ── Paper ID ──
@@ -148,3 +149,35 @@ def register_paper(store: dict, paper: dict, topic: str, message_id=None):
     entry["last_seen"] = datetime.utcnow().isoformat()
     entry["message_id"] = message_id
     papers[pid] = entry
+
+
+# ── Subscriber Preferences ──
+
+def load_subscribers() -> dict:
+    """Load {user_id: {topics: [list], username: str}}."""
+    if os.path.exists(SUBSCRIBERS_FILE):
+        try:
+            with open(SUBSCRIBERS_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except (json.JSONDecodeError, IOError):
+            pass
+    return {}
+
+
+def save_subscribers(subs: dict):
+    with open(SUBSCRIBERS_FILE, "w", encoding="utf-8") as f:
+        json.dump(subs, f, indent=2)
+
+
+def get_active_topics(subs: dict) -> set:
+    """Get set of topic names that at least one subscriber wants."""
+    topics = set()
+    for user_data in subs.values():
+        if isinstance(user_data, dict):
+            for t in user_data.get("topics", []):
+                topics.add(t)
+    # If no subscribers yet, return all topics (default behavior)
+    if not topics:
+        from config import TOPICS
+        return {t["name"] for t in TOPICS}
+    return topics

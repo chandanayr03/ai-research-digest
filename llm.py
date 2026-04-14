@@ -110,6 +110,44 @@ No bullet points, no labels, no filler."""
     return ask(prompt, max_tokens=200, temperature=0.3)
 
 
+def rate_difficulty(title: str, abstract: str) -> str:
+    """Rate paper difficulty for readers."""
+    prompt = f"""You are an AI research curator rating paper difficulty for a general tech audience.
+
+Paper: {title}
+Abstract (first 400 chars): {abstract[:400]}
+
+Rate this paper's difficulty. Pick EXACTLY one:
+- "Beginner" if someone with basic ML knowledge can understand it
+- "Intermediate" if it requires solid ML/DL background
+- "Advanced" if it requires deep expertise in the specific subfield
+
+Reply with ONLY one word: Beginner, Intermediate, or Advanced"""
+    answer = ask(prompt, max_tokens=5, temperature=0.0).strip()
+    for level in ["Beginner", "Intermediate", "Advanced"]:
+        if level.lower() in answer.lower():
+            return level
+    return "Intermediate"
+
+
+def generate_topic_fact(topic_name: str) -> str:
+    """Generate a fun 'Did You Know?' fact related to a specific topic."""
+    prompt = f"""You are a fun AI newsletter writer.
+
+Topic: "{topic_name}"
+
+Write ONE "Did You Know?" fact about this AI/ML topic that is:
+1. A real, verified historical or recent fact (NOT made up)
+2. Surprising, fun, or counterintuitive
+3. Short - max 2 sentences
+
+Format exactly (include emoji):
+Did you know? [your fact]
+
+No intro, no outro. Just the fact."""
+    return ask(prompt, max_tokens=100, temperature=0.8)
+
+
 def generate_ai_insight(paper_titles: list) -> str:
     """Generate a fun, surprising AI fact/insight related to today's papers."""
     titles_block = "\n".join(f"- {t}" for t in paper_titles[:10])

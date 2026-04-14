@@ -17,7 +17,7 @@ ADMIN_USER_ID = os.getenv("ADMIN_USER_ID", "").strip()
 # ── Agent Settings ──
 GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
 PAPERS_PER_SOURCE = int(os.getenv("PAPERS_PER_SOURCE", 5))
-TOP_K = int(os.getenv("TOP_K", 3))
+TOP_K = int(os.getenv("TOP_K", 1))
 LOOKBACK_DAYS = int(os.getenv("LOOKBACK_DAYS", 2))
 SIMILARITY_THRESHOLD = float(os.getenv("SIMILARITY_THRESHOLD", 0.75))
 
