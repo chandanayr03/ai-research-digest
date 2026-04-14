@@ -1,0 +1,246 @@
+{
+  "last_update_id": 689347264,
+  "papers": {
+    "2604.02194": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "Neuro-RIT: Neuron-Guided Instruction Tuning for Robust Retrieval-Augmented Language Model",
+      "topic": "LLMs & Language Models",
+      "link": "https://arxiv.org/abs/2604.02194",
+      "last_seen": "2026-04-14T04:17:32.855989",
+      "message_id": 7
+    },
+    "2604.11791": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "A Mechanistic Analysis of Looped Reasoning Language Models",
+      "topic": "LLMs & Language Models",
+      "link": "http://arxiv.org/abs/2604.11791v1",
+      "last_seen": "2026-04-14T04:17:33.908247",
+      "message_id": 8
+    },
+    "2604.11801": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "CLSGen: A Dual-Head Fine-Tuning Framework for Joint Probabilistic Classification and Verbalized Explanation",
+      "topic": "LLMs & Language Models",
+      "link": "http://arxiv.org/abs/2604.11801v1",
+      "last_seen": "2026-04-14T04:17:35.028146",
+      "message_id": 9
+    },
+    "2604.11521": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "Continuous Adversarial Flow Models",
+      "topic": "Computer Vision",
+      "link": "http://arxiv.org/abs/2604.11521v1",
+      "last_seen": "2026-04-14T04:17:37.291053",
+      "message_id": 11
+    },
+    "2604.11707": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "Representations Before Pixels: Semantics-Guided Hierarchical Video Prediction",
+      "topic": "Computer Vision",
+      "link": "http://arxiv.org/abs/2604.11707v1",
+      "last_seen": "2026-04-14T04:17:38.376721",
+      "message_id": 12
+    },
+    "2604.11720": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "On the Robustness of Watermarking for Autoregressive Image Generation",
+      "topic": "Computer Vision",
+      "link": "http://arxiv.org/abs/2604.11720v1",
+      "last_seen": "2026-04-14T04:17:39.534247",
+      "message_id": 13
+    },
+    "2604.07645": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "PRIME: Training Free Proactive Reasoning via Iterative Memory Evolution for User-Centric Agent",
+      "topic": "AI Agents & Autonomous Systems",
+      "link": "https://arxiv.org/abs/2604.07645",
+      "last_seen": "2026-04-14T04:17:42.472859",
+      "message_id": 15
+    },
+    "2604.11734": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "Multi-ORFT: Stable Online Reinforcement Fine-Tuning for Multi-Agent Diffusion Planning in Cooperative Driving",
+      "topic": "AI Agents & Autonomous Systems",
+      "link": "http://arxiv.org/abs/2604.11734v1",
+      "last_seen": "2026-04-14T04:17:43.464545",
+      "message_id": 16
+    },
+    "2604.11786": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "GenTac: Generative Modeling and Forecasting of Soccer Tactics",
+      "topic": "AI Agents & Autonomous Systems",
+      "link": "http://arxiv.org/abs/2604.11786v1",
+      "last_seen": "2026-04-14T04:17:44.551330",
+      "message_id": 17
+    },
+    "2604.11704": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "Fairness is Not Flat: Geometric Phase Transitions Against Shortcut Learning",
+      "topic": "ML / DL Innovations",
+      "link": "http://arxiv.org/abs/2604.11704v1",
+      "last_seen": "2026-04-14T04:17:46.524411",
+      "message_id": 19
+    },
+    "2604.11762": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "MosaicMRI: A Diverse Dataset and Benchmark for Raw Musculoskeletal MRI",
+      "topic": "ML / DL Innovations",
+      "link": "http://arxiv.org/abs/2604.11762v1",
+      "last_seen": "2026-04-14T04:17:47.549360",
+      "message_id": 20
+    },
+    "2604.11659": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "GPU Acceleration of Sparse Fully Homomorphic Encrypted DNNs",
+      "topic": "ML / DL Innovations",
+      "link": "http://arxiv.org/abs/2604.11659v1",
+      "last_seen": "2026-04-14T04:17:48.475453",
+      "message_id": 21
+    },
+    "2604.10904": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "Evaluating the Impact of Medical Image Reconstruction on Downstream AI Fairness and Performance",
+      "topic": "AI for Healthcare",
+      "link": "http://arxiv.org/abs/2604.10904v1",
+      "last_seen": "2026-04-14T04:17:50.513449",
+      "message_id": 23
+    },
+    "2604.11376": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "From Redaction to Restoration: Deep Learning for Medical Image Anonymization and Reconstruction",
+      "topic": "AI for Healthcare",
+      "link": "http://arxiv.org/abs/2604.11376v1",
+      "last_seen": "2026-04-14T04:17:51.641452",
+      "message_id": 24
+    },
+    "2604.10963": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "Delving Aleatoric Uncertainty in Medical Image Segmentation via Vision Foundation Models",
+      "topic": "AI for Healthcare",
+      "link": "http://arxiv.org/abs/2604.10963v1",
+      "last_seen": "2026-04-14T04:17:52.766766",
+      "message_id": 25
+    },
+    "2604.11563": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "Synthius-Mem: Brain-Inspired Hallucination-Resistant Persona Memory Achieving 94.4% Memory Accuracy and 99.6% Adversarial Robustness on LoCoMo",
+      "topic": "NLP & Text Processing",
+      "link": "http://arxiv.org/abs/2604.11563v1",
+      "last_seen": "2026-04-14T04:17:55.121422",
+      "message_id": 27
+    },
+    "2604.11721": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "Evaluating Cooperation in LLM Social Groups through Elected Leadership",
+      "topic": "NLP & Text Processing",
+      "link": "http://arxiv.org/abs/2604.11721v1",
+      "last_seen": "2026-04-14T04:17:56.247278",
+      "message_id": 28
+    },
+    "2604.11628": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "Back to Basics: Let Conversational Agents Remember with Just Retrieval and Generation",
+      "topic": "NLP & Text Processing",
+      "link": "http://arxiv.org/abs/2604.11628v1",
+      "last_seen": "2026-04-14T04:17:57.376712",
+      "message_id": 29
+    },
+    "d6a0e2823ef3dc32": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "Large-Scale Metro Train Timetable Rescheduling via Multi-Agent Deep Reinforcement Learning: A High-Dimensional Optimization Approach in Flatland Environment",
+      "topic": "Reinforcement Learning",
+      "link": "https://www.semanticscholar.org/paper/85479cca0c6e74cba989e0a99cd0ddb313f94672",
+      "last_seen": "2026-04-14T04:18:00.446550",
+      "message_id": 31
+    },
+    "2603.14625": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "EcoFair-CH-MARL: Scalable Constrained Hierarchical Multi-Agent RL with Real-Time Emission Budgets and Fairness Guarantees",
+      "topic": "Reinforcement Learning",
+      "link": "https://arxiv.org/abs/2603.14625",
+      "last_seen": "2026-04-14T04:18:01.572793",
+      "message_id": 32
+    },
+    "2604.07165": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "Reason in Chains, Learn in Trees: Self-Rectification and Grafting for Multi-turn Agent Policy Optimization",
+      "topic": "Reinforcement Learning",
+      "link": "https://arxiv.org/abs/2604.07165",
+      "last_seen": "2026-04-14T04:18:02.700016",
+      "message_id": 33
+    },
+    "2603.20828": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "EruDiff: Refactoring Knowledge in Diffusion Models for Advanced Text-to-Image Synthesis",
+      "topic": "Generative AI",
+      "link": "https://arxiv.org/abs/2603.20828",
+      "last_seen": "2026-04-14T04:18:04.957694",
+      "message_id": 35
+    },
+    "2603.23924": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "DepthArb: Training-Free Depth-Arbitrated Generation for Occlusion-Robust Image Synthesis",
+      "topic": "Generative AI",
+      "link": "https://arxiv.org/abs/2603.23924",
+      "last_seen": "2026-04-14T04:18:06.076888",
+      "message_id": 36
+    },
+    "2604.11748": {
+      "up": 0,
+      "down": 0,
+      "user_votes": {},
+      "title": "LangFlow: Continuous Diffusion Rivals Discrete in Language Modeling",
+      "topic": "Generative AI",
+      "link": "http://arxiv.org/abs/2604.11748v1",
+      "last_seen": "2026-04-14T04:18:07.100625",
+      "message_id": 37
+    }
+  },
+  "votes": []
+}
